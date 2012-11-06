@@ -2,13 +2,13 @@ uglifyjs-maven-plugin
 =====================
 
 A maven plugin that runs uglifyjs on a directory of javascript files.
-Based on
+
+Based on the excellent https://github.com/kawasima/handlebars-maven-plugin
 
 Introduction
 ------------
 
 uglifyjs-maven-plugin is used to run uglify on the javascript files of your project.
-Based on the excellent https://github.com/kawasima/handlebars-maven-plugin
 
 Goals
 -----

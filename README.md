@@ -37,6 +37,7 @@ Repo
 ----
 
 If you want to use this plugin in your maven project add
+
     <pluginRepositories>
       <pluginRepository>
         <id>uglifyjs-maven-plugin</id>

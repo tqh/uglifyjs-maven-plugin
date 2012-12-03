@@ -32,3 +32,14 @@ Name             |Type   |Description
 sourceDirectory  |String |The directory of javascript files.
 outputDirectory  |String |The output directory to put uglified files
 encoding         |String |charset of javascript files.
+
+Repo
+----
+
+If you want to use this plugin in your maven project add
+    <pluginRepositories>
+      <pluginRepository>
+        <id>uglifyjs-maven-plugin</id>
+        <url>https://raw.github.com/tqh/uglifyjs-maven-plugin/master/repo</url>
+      </pluginRepository>
+    </pluginRepositories>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <plugins>
+    <plugin>
+      <name>uglifyjs-maven-plugin</name>
+      <prefix>uglifyjs</prefix>
+      <artifactId>uglifyjs-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</metadata>

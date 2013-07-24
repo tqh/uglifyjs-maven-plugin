@@ -48,7 +48,7 @@ public class UglifyMojo extends AbstractMojo {
 		JavascriptContext( String... scripts ) throws IOException {
 			ClassLoader cl = getClass().getClassLoader();
 			for( String script : scripts ) {
-				InputStreamReader in = new InputStreamReader(cl.getResourceAsStream("script/" + script));
+				InputStreamReader in = new InputStreamReader(cl.getResourceAsStream("script/" + script),"UTF-8");
 				cx.evaluateReader( global, in, script, 1, null);
 				IOUtils.closeQuietly( in );
 			}

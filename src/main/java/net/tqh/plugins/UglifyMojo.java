@@ -55,7 +55,7 @@ public class UglifyMojo extends AbstractMojo {
 		}
 
 		String executeCmdOnFile( String cmd, File file ) throws IOException {
-			String data = FileUtils.readFileToString( file, "UTF-8" );
+			String data = FileUtils.readFileToString( file, encoding );
 			ScriptableObject.putProperty( global, "data", data);
 			return cx.evaluateString( global, cmd + "(String(data));", "<cmd>", 1, null).toString();
 		}

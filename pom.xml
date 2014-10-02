@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0       http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0	   http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.tqh.plugins</groupId>
 	<artifactId>uglifyjs-maven-plugin</artifactId>
@@ -9,8 +9,8 @@
 	<packaging>maven-plugin</packaging>
 	<url>https://github.com/tqh/uglifyjs-maven-plugin/</url>
   <description>
-    Maven plugin to run uglifyjs on a directory of javascript files. Based on the excellent
-    https://github.com/kawasima/handlebars-maven-plugin code.
+	Maven plugin to run uglifyjs on a directory of javascript files. Based on the excellent
+	https://github.com/kawasima/handlebars-maven-plugin code.
   </description>
 
 	<licenses>
@@ -29,10 +29,10 @@
 	</scm>
 
   <distributionManagement>
-    <repository>
-      <id>github.repo</id>
-      <url>file://${project.basedir}/repo</url>
-    </repository>
+	<repository>
+	  <id>github.repo</id>
+	  <url>file://${project.basedir}/repo</url>
+	</repository>
   </distributionManagement>
 
 
@@ -54,6 +54,11 @@
 			<groupId>org.apache.maven</groupId>
 			<artifactId>maven-plugin-api</artifactId>
 			<version>2.0.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.maven.shared</groupId>
+			<artifactId>file-management</artifactId>
+			<version>1.2.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>

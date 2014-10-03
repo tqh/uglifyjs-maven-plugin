@@ -58,14 +58,14 @@ public class UglifyMojo extends AbstractMojo {
 		JavascriptContext( String... scripts ) throws IOException {
 			ClassLoader cl = getClass().getClassLoader();
 			for( String script : scripts ) {
-				InputStreamReader in = new InputStreamReader(cl.getResourceAsStream("script/" + script));
+				InputStreamReader in = new InputStreamReader(cl.getResourceAsStream("script/" + script),encoding);
 				cx.evaluateReader( global, in, script, 1, null);
 				IOUtils.closeQuietly( in );
 			}
 		}
 
 		String executeCmdOnFile( String cmd, File file ) throws IOException {
-			String data = FileUtils.readFileToString( file, "UTF-8" );
+			String data = FileUtils.readFileToString( file, encoding );
 			ScriptableObject.putProperty( global, "data", data);
 			return cx.evaluateString( global, cmd + "(String(data));", "<cmd>", 1, null).toString();
 		}

@@ -1,19 +1,20 @@
 package net.tqh.plugins;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.Collection;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.shared.model.fileset.FileSet;
+import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /**
  * UglifyJS uglify
@@ -23,7 +24,6 @@ import org.mozilla.javascript.ScriptableObject;
  *
  */
 public class UglifyMojo extends AbstractMojo {
-	private static final String[] JS_EXTENSIONS = {"js"};
 
 	/**
 	 * @parameter expression="${encoding}" default-value="UTF-8"
@@ -31,12 +31,15 @@ public class UglifyMojo extends AbstractMojo {
 	private String encoding = "UTF-8";
 
 	/**
+	 * {@link org.apache.maven.shared.model.fileset.FileSet} containing JavaScript source files.
+	 *
 	 * @required
-	 * @parameter expression="${sourceDirectory}"
+	 * @parameter expression="${sources}"
 	 */
-	protected File sourceDirectory;
+	protected FileSet sources;
 
 	/**
+	 * @required
 	 * @parameter expression="${outputDirectory}"
 	 */
 	protected File outputDirectory;
@@ -78,25 +81,25 @@ public class UglifyMojo extends AbstractMojo {
 			throw new MojoExecutionException( "outputDirectory is not specified." );
 
 		try {
-			int count = uglify( sourceDirectory );
+			int count = uglify(getSourceFiles());
 			getLog().info( "Uglified " + count + " file(s)." );
 		} catch(IOException e) {
 			throw new MojoExecutionException("Failure to precompile handlebars templates.", e);
 		}
 	}
 
-	protected int uglify( File directory ) throws IOException {
-		Collection<File> jsFiles = FileUtils.listFiles(directory, JS_EXTENSIONS, true);
+	protected int uglify( File[] jsFiles ) throws IOException {
 		int count = 0;
-
 		OutputStreamWriter out = null;
 		for (File jsFile : jsFiles) {
+			final String jsFilePath = jsFile.getPath();
+			getLog().info( "Uglifying " + jsFilePath );
 			try {
 				String output = new JavascriptContext("uglifyjs.js", "uglifyJavascript.js").executeCmdOnFile( "uglifyJavascript", jsFile );
 				out = new OutputStreamWriter( new FileOutputStream(getOutputFile(jsFile), false), encoding);
 				out.write(output);
 			} catch( IOException e ) {
-				getLog().error( "Could not uglify '" + jsFile.getPath() + "'.", e );
+				getLog().error( "Could not uglify " + jsFile.getPath() + ".", e );
 				throw e;
 			} finally {
 				Context.exit();
@@ -107,11 +110,38 @@ public class UglifyMojo extends AbstractMojo {
 		return count;
 	}
 
-	private final File getOutputFile(File inputFile) throws IOException {
-		String relativePath = sourceDirectory.toURI().relativize(inputFile.getParentFile().toURI()).getPath();
-		File outputBaseDir = new File(outputDirectory, relativePath);
+	private final File getOutputFile( File inputFile ) throws IOException {
+		final String relativePath = getSourceDir().toURI().relativize(inputFile.getParentFile().toURI()).getPath();
+		final File outputBaseDir = new File(outputDirectory, relativePath);
 		if (!outputBaseDir.exists())
 			FileUtils.forceMkdir(outputBaseDir);
 		return new File(outputBaseDir, inputFile.getName());
 	}
+
+	/**
+	 * Returns {@link File directory} containing JavaScript source {@link File files}.
+	 *
+	 * @return {@link File Directory} containing JavaScript source {@link File files}
+	 */
+	private File getSourceDir() {
+		return new File( sources.getDirectory() );
+	}
+
+	/**
+	 * Returns JavaScript source {@link File files}.
+	 *
+	 * @return Array of JavaScript source {@link File files}
+	 * @throws IOException
+	 */
+	private File[] getSourceFiles() throws IOException {
+		final FileSetManager fileSetManager = new FileSetManager();
+		final String[] includedFiles = fileSetManager.getIncludedFiles( sources );
+		final File sourceDir = getSourceDir();
+		final File[] sourceFiles = new File[includedFiles.length];
+		for (int i = 0; i < includedFiles.length; i++) {
+			sourceFiles[i] = new File( sourceDir, includedFiles[i] );
+		}
+		return sourceFiles;
+	}
+
 }

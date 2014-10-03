@@ -29,9 +29,10 @@ Description
 
 Name             |Type    |Description
 -----------------|--------|--------------------------------------
+skip             |Boolean |Flag that allows user to skip execution of the plugin.
 sources          |FileSet |The directory containing javascript source files.
-outputDirectory  |String  |The output directory to put uglified files
-encoding         |String  |charset of javascript files.
+outputDirectory  |String  |The output directory to put uglified files.
+encoding         |String  |Charset of javascript files.
 
 Repo
 ----

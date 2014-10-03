@@ -29,7 +29,7 @@ Description
 
 Name             |Type    |Description
 -----------------|--------|--------------------------------------
-skip             |Boolean |Flag that allows user to skip execution of the plugin.
+skip             |Boolean |Flag that allows user to skip execution of the plugin. (Currently only available when building this plugin from source.)
 sources          |FileSet |The directory containing javascript source files.
 outputDirectory  |String  |The output directory to put uglified files.
 encoding         |String  |Charset of javascript files.

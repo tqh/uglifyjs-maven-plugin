@@ -41,6 +41,13 @@ public class UglifyMojo extends AbstractMojo {
 	 */
 	protected File outputDirectory;
 
+	/**
+	 * Skip UglifyJS execution.
+	 *
+	 * @parameter expression="${skip}" default-value="false"
+	 */
+	protected boolean skip = false;
+
 	class JavascriptContext {
 		final Context cx = Context.enter();
 		final ScriptableObject global = cx.initStandardObjects();
@@ -62,6 +69,11 @@ public class UglifyMojo extends AbstractMojo {
 	}
 
 	public void execute() throws MojoExecutionException, MojoFailureException {
+		if (skip) {
+			getLog().info( "Skipping" );
+			return;
+		}
+
 		if (outputDirectory == null)
 			throw new MojoExecutionException( "outputDirectory is not specified." );
 

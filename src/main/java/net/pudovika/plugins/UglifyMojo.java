@@ -1,4 +1,4 @@
-package net.tqh.plugins;
+package net.pudovika.plugins;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -10,11 +10,7 @@ import org.apache.maven.shared.model.fileset.util.FileSetManager;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.io.*;
 
 /**
  * UglifyJS uglify
@@ -95,14 +91,16 @@ public class UglifyMojo extends AbstractMojo {
 			final String jsFilePath = jsFile.getPath();
 			getLog().info( "Uglifying " + jsFilePath );
 			try {
-				String output = new JavascriptContext("uglifyjs.js", "uglifyJavascript.js").executeCmdOnFile( "uglifyJavascript", jsFile );
-				out = new OutputStreamWriter( new FileOutputStream(getOutputFile(jsFile), false), encoding);
+				//String output = new JavascriptContext("uglifyjs.js", "uglifyJavascript.js").executeCmdOnFile( "uglifyJavascript", jsFile );
+                Process p = Runtime.getRuntime().exec("uglifyjs " + jsFilePath);
+                String output = IOUtils.toString(p.getInputStream(), encoding);
+                out = new OutputStreamWriter( new FileOutputStream(getOutputFile(jsFile), false), encoding);
 				out.write(output);
 			} catch( IOException e ) {
 				getLog().error( "Could not uglify " + jsFile.getPath() + ".", e );
 				throw e;
 			} finally {
-				Context.exit();
+				//Context.exit();
 				IOUtils.closeQuietly(out);
 			}
 			count+=1;

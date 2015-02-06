@@ -2,12 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0       http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.tqh.plugins</groupId>
+	<groupId>net.pudovika.plugins</groupId>
 	<artifactId>uglifyjs-maven-plugin</artifactId>
-	<version>1.0</version>
+	<version>0.1</version>
 	<name>uglifyjs-maven-plugin</name>
 	<packaging>maven-plugin</packaging>
-	<url>https://github.com/tqh/uglifyjs-maven-plugin/</url>
+	<url>https://github.com/pudovika/uglifyjs-maven-plugin/</url>
   <description>
     Maven plugin to run uglifyjs on a directory of javascript files. Based on the excellent
     https://github.com/kawasima/handlebars-maven-plugin code.
@@ -23,9 +23,9 @@
 
 
 	<scm>
-		<url>scm:git:https://github.com/tqh/uglifyjs-maven-plugin.git</url>
-		<connection>scm:git:https://github.com/tqh/uglifyjs-maven-plugin.git</connection>
-		<developerConnection>scm:git:https://github.com/tqh/uglifyjs-maven-plugin.git</developerConnection>
+		<url>scm:git:https://github.com/pudovika/uglifyjs-maven-plugin.git</url>
+		<connection>scm:git:https://github.com/pudovika/uglifyjs-maven-plugin.git</connection>
+		<developerConnection>scm:git:https://github.com/pudovika/uglifyjs-maven-plugin.git</developerConnection>
 	</scm>
 
   <distributionManagement>

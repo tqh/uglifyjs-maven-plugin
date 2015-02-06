@@ -2,9 +2,9 @@
 <metadata>
   <plugins>
     <plugin>
-      <name>uglifyjs-maven-plugin</name>
+      <name>uglifyjs-cleancss-maven-plugin</name>
       <prefix>uglifyjs</prefix>
-      <artifactId>uglifyjs-maven-plugin</artifactId>
+      <artifactId>uglifyjs-cleancss-maven-plugin</artifactId>
     </plugin>
   </plugins>
 </metadata>

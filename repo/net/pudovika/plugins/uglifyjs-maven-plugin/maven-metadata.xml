@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>net.pudovika.plugins</groupId>
-  <artifactId>uglifyjs-maven-plugin</artifactId>
+  <artifactId>uglifyjs-cleancss-maven-plugin</artifactId>
   <versioning>
     <latest>0.1</latest>
     <release>0.1</release>

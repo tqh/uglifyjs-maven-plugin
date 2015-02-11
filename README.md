@@ -6,7 +6,7 @@ A maven plugin that runs UglifyJS and CleanCss on a directory of javascript file
 UglifyJs and CleanCss should be installed with npm. Also added to env commands "uglifyjs" and "cleancss"
 
 Based on the excellent https://github.com/kawasima/handlebars-maven-plugin
-and on https://github.com/tqh/uglifyjs-cleancss-maven-plugin
+and on https://github.com/tqh/uglifyjs-maven-plugin
 
 Introduction
 ------------
@@ -38,19 +38,11 @@ cssSources       |FileSet |The directory containing css source files.
 outputDirectory  |String  |The output directory to put uglified files.
 encoding         |String  |Charset of javascript files.
 
-Repo
+Usage
 ----
-
-If you want to use this plugin in your maven project add the following plugin repository
-
-    <pluginRepositories>
-      <pluginRepository>
-        <id>uglifyjs-cleancss-maven-plugin</id>
-        <url>https://raw.github.com/pudovika/uglifyjs-cleancss-maven-plugin/master/repo</url>
-      </pluginRepository>
-    </pluginRepositories>
-
-and call the plugin during the build process, e.g.:
+Install nodejs and uglifyjs and clean-css libraries. 
+Check from command line "uglifyjs --version" and "cleancss --version".
+Call the plugin during the build process, e.g.:
 
     <build>
         <plugins>

@@ -1,4 +1,4 @@
-package net.pudovika.plugins;
+package com.github.pudovika;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;

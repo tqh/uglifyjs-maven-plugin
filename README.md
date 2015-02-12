@@ -33,6 +33,8 @@ Description
 Name             |Type    |Description
 -----------------|--------|--------------------------------------
 skip             |Boolean |Flag that allows user to skip execution of the plugin. (Currently only available when building this plugin from source.)
+uglifyjsCmd      |String  |Charset of uglyfyjs command (if exists problem with env var uglifyjs, can be set manual).
+cleancssCmd      |String  |Charset of cleancss command (if exists problem with env var cleancss, can be set manual).
 sources          |FileSet |The directory containing javascript source files.
 cssSources       |FileSet |The directory containing css source files.
 outputDirectory  |String  |The output directory to put uglified files.

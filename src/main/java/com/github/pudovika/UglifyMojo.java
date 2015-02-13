@@ -33,6 +33,16 @@ public class UglifyMojo extends AbstractMojo {
      */
     private String cleancssCmd;
 
+    /**
+     * @parameter expression="${optionsJs}" default-value=" "
+     */
+    private String optionsJs;
+
+    /**
+     * @parameter expression="${optionsCss}" default-value=" "
+     */
+    private String optionsCss;
+
 	/**
 	 * {@link org.apache.maven.shared.model.fileset.FileSet} containing JavaScript source files.
 	 *
@@ -89,7 +99,8 @@ public class UglifyMojo extends AbstractMojo {
 			final String jsFilePath = jsFile.getPath();
 			getLog().info( "Uglifying " + jsFilePath );
 			try {
-                Process p = Runtime.getRuntime().exec(uglifyjsCmd + " " + jsFilePath + " -o " + getOutputFile(jsFile).getPath());
+                Process p = Runtime.getRuntime().exec(uglifyjsCmd + " " + jsFilePath + 
+                        " -o " + getOutputFile(jsFile).getPath() + " " + optionsJs);
 			} catch( IOException e ) {
 				getLog().error( "Could not uglify " + jsFile.getPath() + ".", e );
 				throw e;
@@ -105,7 +116,8 @@ public class UglifyMojo extends AbstractMojo {
             final String cssFilePath = cssFile.getPath();
             getLog().info( "Cleaning Css " + cssFilePath );
             try {
-                Process p = Runtime.getRuntime().exec(cleancssCmd + " " + cssFilePath + " -o " + getOutputFile(cssFile).getPath());
+                Process p = Runtime.getRuntime().exec(cleancssCmd + " " + optionsCss + " " +
+                        cssFilePath + " -o " + getOutputFile(cssFile).getPath());
             } catch( IOException e ) {
                 getLog().error( "Could not clean css " + cssFile.getPath() + ".", e );
                 throw e;

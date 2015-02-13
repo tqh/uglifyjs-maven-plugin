@@ -11,7 +11,7 @@
     
 	<groupId>com.github.pudovika</groupId>
 	<artifactId>uglifyjs-cleancss-maven-plugin</artifactId>
-	<version>1.1</version>
+	<version>1.2</version>
     <packaging>maven-plugin</packaging>
     <name>uglifyjs-cleancss-maven-plugin</name>
 	<url>https://github.com/pudovika/uglifyjs-cleancss-maven-plugin/</url>

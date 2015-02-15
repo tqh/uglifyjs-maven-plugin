@@ -1,6 +1,7 @@
 package com.github.pudovika;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -8,6 +9,15 @@ import org.apache.maven.shared.model.fileset.FileSet;
 import org.apache.maven.shared.model.fileset.util.FileSetManager;
 
 import java.io.*;
+
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.ScriptableObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /**
  * UglifyJS uglify
@@ -72,6 +82,33 @@ public class UglifyMojo extends AbstractMojo {
 	 */
 	protected boolean skip = false;
 
+	/**
+	 * Skip UglifyJS execution.
+	 *
+	 * @parameter expression="${useRhino}" default-value="false"
+	 */
+	protected boolean useRhino = false;
+
+	class JavascriptContext {
+		final Context cx = Context.enter();
+		final ScriptableObject global = cx.initStandardObjects();
+
+		JavascriptContext( String... scripts ) throws IOException {
+			ClassLoader cl = getClass().getClassLoader();
+			for( String script : scripts ) {
+				InputStreamReader in = new InputStreamReader(cl.getResourceAsStream("script/" + script));
+				cx.evaluateReader( global, in, script, 1, null);
+				IOUtils.closeQuietly(in);
+			}
+		}
+
+		String executeCmdOnFile( String cmd, File file ) throws IOException {
+			String data = FileUtils.readFileToString( file, "UTF-8" );
+			ScriptableObject.putProperty( global, "data", data);
+			return cx.evaluateString( global, cmd + "(String(data));", "<cmd>", 1, null).toString();
+		}
+	}
+
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		if (skip) {
 			getLog().info( "Skipping" );
@@ -82,12 +119,18 @@ public class UglifyMojo extends AbstractMojo {
 			throw new MojoExecutionException( "outputDirectory is not specified." );
 
 		try {
-			int count = uglify(getJsSourceFiles());
-			getLog().info( "Uglified " + count + " file(s)." );
-            if (cssSources != null) {
-                count = cleanCss(getCssSourceFiles());
-                getLog().info( "Celeaned " + count + " file(s)." );
-            }
+			int count =0;
+			if (useRhino) {
+				count = uglifyWithRhino(getJsSourceFiles());
+			} else {
+				count = uglify(getJsSourceFiles());
+			}
+
+			getLog().info("Uglified " + count + " file(s).");
+			if (cssSources != null) {
+				count = cleanCss(getCssSourceFiles());
+				getLog().info("Celeaned " + count + " file(s).");
+			}
 		} catch(IOException e) {
 			throw new MojoExecutionException("Failure to precompile handlebars templates.", e);
 		}
@@ -107,6 +150,29 @@ public class UglifyMojo extends AbstractMojo {
 			}
 			count++;
 		}
+		return count;
+	}
+
+	private int uglifyWithRhino(File[] jsFiles) throws IOException {
+		int count = 0;
+		OutputStreamWriter out = null;
+		JavascriptContext jsCtx = new JavascriptContext("uglifyjs.js", "uglifyJavascript.js");
+		for (File jsFile : jsFiles) {
+			final String jsFilePath = jsFile.getPath();
+			getLog().info( "Uglifying " + jsFilePath );
+			try {
+				String output = jsCtx.executeCmdOnFile( "uglifyJavascript", jsFile );
+				out = new OutputStreamWriter( new FileOutputStream(getOutputFile(jsFile), false), encoding);
+				out.write(output);
+			} catch( IOException e ) {
+				getLog().error( "Could not uglify " + jsFile.getPath() + ".", e );
+				throw e;
+			} finally {
+				IOUtils.closeQuietly(out);
+			}
+			count++;
+		}
+		Context.exit();
 		return count;
 	}
 

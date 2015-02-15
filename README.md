@@ -32,7 +32,8 @@ Description
 
 Name             |Type    |Description
 -----------------|--------|--------------------------------------
-skip             |Boolean |Flag that allows user to skip execution of the plugin. (Currently only available when building this plugin from source.)
+skip             |Boolean |Flag that allows user to skip execution of the plugin.
+useRhino         |Boolean |Flag that set using build in uglifyJs lib. If set true doesn't required nodejs.
 uglifyjsCmd      |String  |Charset of uglifyjs command (if exists problem with env var uglifyjs, can be set manual).
 cleancssCmd      |String  |Charset of cleancss command (if exists problem with env var cleancss, can be set manual).
 optionsJs        |String  |Charset of uglifyjs options.

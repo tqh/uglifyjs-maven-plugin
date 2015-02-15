@@ -11,7 +11,7 @@
     
 	<groupId>com.github.pudovika</groupId>
 	<artifactId>uglifyjs-cleancss-maven-plugin</artifactId>
-	<version>1.2</version>
+	<version>1.3</version>
     <packaging>maven-plugin</packaging>
     <name>uglifyjs-cleancss-maven-plugin</name>
 	<url>https://github.com/pudovika/uglifyjs-cleancss-maven-plugin/</url>
@@ -151,5 +151,10 @@
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.mozilla</groupId>
+            <artifactId>rhino</artifactId>
+            <version>1.7R3</version>
+        </dependency>
+    </dependencies>
 </project>
